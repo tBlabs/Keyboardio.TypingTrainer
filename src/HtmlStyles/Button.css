@@ -1,0 +1,27 @@
+.button
+{
+    display: inline-block;
+    min-width: 160px;
+    margin: 24px;
+    padding: 12px 32px;
+    border-radius: 4px;
+}
+
+.button + .button
+{
+    margin-right: 4px;
+}
+
+.primary
+{
+    color: #000;
+    border: 1px solid #ccc;
+    background-color: #ccc;
+}
+
+.secondary
+{
+    color: #eee;
+    border: 1px solid #eee;
+    background-color: #222;
+}

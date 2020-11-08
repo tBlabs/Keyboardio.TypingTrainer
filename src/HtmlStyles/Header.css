@@ -1,0 +1,16 @@
+.header
+{
+    width: 360px;
+    padding-bottom: 8px;
+    margin: 8px;
+    margin-top: 32px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #666;
+}
+
+.header hr
+{
+    border: 1px solid #666;
+    background-color: #666;
+}

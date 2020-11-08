@@ -1,0 +1,81 @@
+{
+  "name": "keyboardio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html --no-minify --public-url .",
+    "help": "parcel --help",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "zip": "del /F dist.zip && @powershell Compress-Archive -Path ./dist/* -DestinationPath dist.zip",
+    "push": "curl -X POST -F file=@dist.zip http://deploy.tblabs.pl/keyboardio",
+    "deploy": "npm run build && npm run zip && npm run push"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/config/test-shim.js",
+      "<rootDir>/config/test-setup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/config/test-preprocessor.js"
+    },
+    "testMatch": [
+      "**/*.(test|spec).(ts|tsx|js)"
+    ]
+  },
+  "keywords": [
+    "Typescript",
+    "React",
+    "Parcel"
+  ],
+  "author": "tB",
+  "license": "beerware",
+  "dependencies": {
+    "@material-ui/core": "^4.10.0",
+    "@types/socket.io-client": "^1.4.33",
+    "@types/uuid": "^8.0.0",
+    "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
+    "base64-url": "^2.3.3",
+    "base64url": "^3.0.1",
+    "inversify": "^5.0.1",
+    "inversify-inject-decorators": "^3.1.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.26.0",
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5",
+    "socket.io-client": "^2.3.0",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/enzyme": "^3.10.5",
+    "@types/jasmine": "^3.5.10",
+    "@types/jest": "^25.2.3",
+    "@types/lodash": "^4.14.154",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^26.0.1",
+    "moq.ts": "^6.3.3",
+    "prettier": "^2.0.5",
+    "react-test-renderer": "^16.13.1",
+    "ts-jest": "^26.1.0",
+    "tslint": "^6.1.2",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^5.0.0",
+    "typescript": "^3.9.3"
+  }
+}

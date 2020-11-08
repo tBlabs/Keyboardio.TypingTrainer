@@ -1,0 +1,25 @@
+.indicator-box
+{
+    margin: 8px;
+    border-radius: 4px;
+}
+
+.indicator-box .label
+{
+    width: 140px;
+    border: 2px solid #444;
+    padding: 8px;
+    border-radius: 4px 0 0 4px;
+}
+
+.indicator-box .value
+{
+    display: inline-block;
+    border: 2px solid #444;
+    background-color: #444;
+    color: #fff;
+    padding: 8px;
+    min-width: 180px;
+    text-align: center;
+    border-radius: 0 4px 4px 0;
+}
