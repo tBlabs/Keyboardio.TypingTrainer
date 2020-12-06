@@ -1,4 +1,3 @@
-import { Button } from './Button';
 import * as React from 'react';
 import { WORDS } from './Words';
 import '../HtmlStyles/Keyboardio.css';
@@ -18,9 +17,15 @@ interface IState
 export class Keyboardio extends React.Component<{}, IState>
 {
     state = {
-        charset: window.localStorage.getItem("charset") || "qwertyuiopasdfghjklzxcvbnm", charsetInfo: "",
-        input: "Loading...", text: "", info: "", titlecaseSometimes: false, multiplyWords: false
+        charset: window.localStorage.getItem("charset") || "qwertyuiopasdfghjklzxcvbnm", 
+        charsetInfo: "",
+        input: "Loading...", 
+        text: "", 
+        info: "", 
+        titlecaseSometimes: false, 
+        multiplyWords: false
     };
+
     private words: string[] = [];
 
     ShuffleArray(array: string[]): string[]
@@ -88,35 +93,42 @@ export class Keyboardio extends React.Component<{}, IState>
         }
         let t = shuffled.join(" ");
         t = [...Array(5).keys()].map(x => t).join(". ");
-        return t.substr(0, 50).trim();
+        return t.substr(0, 80).trim();
     }
 
-    KeyPress(str: string)
+    private mistakes = 0;
+    private pressesSoFar = 0;
+    private UserInput_KeyPress(str: string): void
     {
-        if (str.length === this.state.input.length)
+        this.pressesSoFar += 1;
+
+        let inf = "";
+        if (!this.state.input.startsWith(str))
         {
-            this.setState({ text: "", input: this.Next });
+            this.mistakes += 1;
+            inf = `YOU MADE A MISTAKE! ${this.mistakes} of ${this.pressesSoFar} chars pressed so far (${((this.mistakes / this.pressesSoFar) * 100).toFixed(0)}%)`;
+            this.setState({ info: inf });
+            return;
         }
         else
         {
-            let inf = "";
-            if (!this.state.input.startsWith(str))
+            if (str.length >= this.state.input.length)
             {
-                inf = "YOU MADE A MISTAKE!";
-                this.setState({ info: inf });
-                return;
+                this.setState({ text: "", input: this.Next });
             }
-            this.setState({ text: str, info: "" });
+            else
+                this.setState({ text: str, info: "" });
         }
     }
 
-    CharsetTextbox_Change(str: string)
+    private async CharsetTextbox_Change(str: string)
     {
-        window.localStorage.setItem("charset", this.state.charset);
 
         const foundWords = this.Generate(str);
 
-        this.setState({ charset: str, input: this.Next, text: "", info: "", charsetInfo: `${foundWords} words found` });
+        await this.SetStateAsync({ charset: str, input: this.Next, text: "", info: "", charsetInfo: `${foundWords} words found` });
+
+        window.localStorage.setItem("charset", this.state.charset);
     }
 
     private async Reload(updater: Partial<IState>): Promise<void>
@@ -136,9 +148,9 @@ export class Keyboardio extends React.Component<{}, IState>
     render()
     {
         return (
-            <div style={{ padding: "32px" }}>
-                <input className="big-input" type="text" value={this.state.input} /><br />
-                <input className="big-input" type="text" value={this.state.text} onChange={(k) => this.KeyPress(k.target.value)} />
+            <div style={{ padding: "32px" }} >
+                <input readOnly className="big-input" type="text" value={this.state.input} /><br />
+                <input className="big-input" type="text" value={this.state.text} onChange={(k) => this.UserInput_KeyPress(k.target.value)} />
                 <div style={{ height: "30px" }}>
                     <p>{this.state.info}</p>
                 </div>
@@ -148,7 +160,7 @@ export class Keyboardio extends React.Component<{}, IState>
                 <br />
                 <input type="text" className="small-input"
                     value={this.state.charset}
-                    onChange={(c) => this.CharsetTextbox_Change(c.target.value)} />
+                    onChange={async (c) => await this.CharsetTextbox_Change(c.target.value)} />
                 <span className="info">{this.state.charsetInfo}</span>
                 <br />
                 <Checkbox disabled label={`Only real english words (${WORDS.length} in database)`} value={true} onChange={(v) => console.log(v)} />
@@ -158,7 +170,7 @@ export class Keyboardio extends React.Component<{}, IState>
                 <Checkbox label="Titlecase sometimes" value={this.state.titlecaseSometimes} onChange={async (v) => await this.Reload({ titlecaseSometimes: v })} />
                 <Checkbox disabled label="Random interpunction" value={false} onChange={(v) => console.log(v)} />
                 <Checkbox disabled label="Insert some numbers" value={false} onChange={(v) => console.log(v)} />
-            </div>
+            </div >
         );
     }
 }

@@ -10,7 +10,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "zip": "del /F dist.zip && @powershell Compress-Archive -Path ./dist/* -DestinationPath dist.zip",
-    "push": "curl -X POST -F file=@dist.zip http://deploy.tblabs.pl/keyboardio",
+    "push": "curl -X POST -F file=@dist.zip http://deploy.specteam.pl/keyboardio",
     "deploy": "npm run build && npm run zip && npm run push"
   },
   "jest": {

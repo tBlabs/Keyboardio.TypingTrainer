@@ -1,4 +1,5 @@
 import * as React from "react";
+import '../HtmlStyles/Checkbox';
 
 interface Props
 {
@@ -15,7 +16,6 @@ interface State
 
 export class Checkbox extends React.Component<Props, State>
 {
-
     constructor(props: Props)
     {
         super(props);
